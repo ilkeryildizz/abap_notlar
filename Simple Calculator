@@ -1,0 +1,85 @@
+PARAMETERS: pa_int1 TYPE i,
+            pa_int2 TYPE i,
+            pa_op(1) TYPE c.
+
+DATA gv_result TYPE p LENGTH 16 DECIMALS 2.
+
+
+IF ( pa_op = '+' or
+     pa_op = '-' or
+     pa_op = '*' or
+     pa_op = '/' and pa_int2 ne 0 ).
+
+  CASE pa_op.
+    WHEN '+'.
+      gv_result = pa_int1 + pa_int2.
+    WHEN '-'.
+      gv_result = pa_int1 - pa_int2.
+    WHEN '*'.
+      gv_result = pa_int1 * pa_int2.
+    WHEN '/'.
+      gv_result = pa_int1 / pa_int2.
+  ENDCASE.
+
+  WRITE: 'Result: ', gv_result.
+
+ELSEIF pa_op = '/' AND pa_int2 = 0.
+
+  MESSAGE 'No division by zero!' TYPE 'I' DISPLAY LIKE 'E'.
+
+ELSE.
+
+  MESSAGE 'Invalid operator!' TYPE 'I' DISPLAY LIKE 'E'.
+
+ENDIF.
+
+
+
+************************************************************** OR ************************************************************
+
+
+
+PARAMETERS: pa_int1 TYPE i,
+            pa_int2 TYPE i,
+            pa_op(1) TYPE c.
+
+DATA gv_result TYPE p LENGTH 16 DECIMALS 2.
+
+
+INITIALIZATION.
+
+pa_int1 = 10.
+pa_int2 = 5.
+pa_op = '+'.
+
+
+AT SELECTION-SCREEN ON pa_int2.
+
+  IF pa_op = '/' AND pa_int2 = 0.
+
+    MESSAGE 'Keine Division durch 0 möglich!' TYPE 'E'.
+
+  ENDIF.
+
+AT SELECTION-SCREEN ON pa_op.
+
+  IF pa_op CN '+-*/'.
+
+    MESSAGE 'Falscher Operator!' TYPE 'E'.
+
+  ENDIF.
+
+START-OF-SELECTION.
+
+  CASE pa_op.
+    WHEN '+'.
+      gv_result = pa_int1 + pa_int2.
+    WHEN '-'.
+      gv_result = pa_int1 - pa_int2.
+    WHEN '*'.
+      gv_result = pa_int1 * pa_int2.
+    WHEN '/'.
+      gv_result = pa_int1 / pa_int2.
+  ENDCASE.
+
+  WRITE: 'Ergebnis: ', gv_result.
