@@ -1,0 +1,3 @@
+DATA gv_metin TYPE string.
+gv_metin = 'Hello.'.
+WRITE gv_metin.
